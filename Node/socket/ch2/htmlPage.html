@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+	window.onload = function () {
+		var socket = io.connect();
+		var name = prompt("이름 입력하세요,", '이름');
+		socket.emit('setname', name);
+		
+		var button = document.getElementById('button');
+		button.onclick = function () {
+			socket.emit('getname');
+		}
+		
+		socket.on('response', function (data) {
+			alert(data);
+		})
+		
+		
+	};
+</script>
+</head>
+<body>
+	<h3>소켓 test</h3>
+	<input type="button" id="button" value="데이터 가져오기"/>
+</body>
+</html>

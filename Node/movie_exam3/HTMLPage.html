@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<style type="text/css">
+	.line{overflow: hidden;}
+	.seat{
+		margin: 2px;
+		float: left;
+		width: 30px;
+		height: 30px;
+		border-radius: 3px;
+	}
+	
+	.enable{background: gray;}
+	.disable{background: red;}
+
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+	<!-- 초기화 작업 -->
+	
+	$(function(){
+		
+		var socket = io.connect();
+		
+		socket.on('reserve', function(data){
+			var $target = $('div[data-x=' + data.x + '][data-y=' + data.y + ']');
+			$target.removeClass('enable');
+			$target.addClass('disable');
+			
+		});
+		
+		var onClickSeat = function(){
+			var x = $(this).attr('data-x');
+			var y = $(this).attr('data-y');
+			var data = $(this).attr('data');
+			$pre = $(this).next('div');
+			
+			if(confirm('좌석을 예약하시겠습니까?')){
+				if($pre.hasClass('disable') || $pre.attr('data') == 0){
+					alert('이미 예약되어있습니다.');
+					return;
+				}else{
+					$(this).off('click');
+					socket.emit('reserve', {
+						x : x,
+						y : y,
+					});
+				}
+				
+
+				if($pre.attr('data') == 1){
+					var pX = $pre.attr('data-x');
+					var pY = $pre.attr('data-y');
+					socket.emit('reserve', {
+						x : pX,
+						y : pY,
+					});
+				}/* else if($pre.attr('data') == 0){
+					$pre2 = $pre.next('div');
+					if($pre2.attr('data') == 1){
+						var pX = $pre2.attr('data-x');
+						var pY = $pre2.attr('data-y');
+						socket.emit('reserve', {
+							x : pX,
+							y : pY,
+						});
+					}
+				} */
+				
+			}else{
+				alert('예약을 취소하였습니다.');
+			}
+			
+		}
+		
+		$.getJSON('/seats', function(data){
+			$.each(data, function(indexY, line){
+				var $line = $('<div></div>').addClass('line');
+				$.each(line, function(indexX, seat){
+					var $output = $('<div></div>').attr({
+						'data-x' : indexX,
+						'data-y' : indexY,
+						'data' : seat
+					}).addClass('seat').appendTo($line).on('click', onClickSeat);
+					
+					if(seat == 1){
+						$output.addClass('enable');
+					}else if(seat == 2){
+						$output.addClass('disable');
+					}
+				});
+				$line.appendTo('body');
+			});
+		});
+	});
+	
+
+</script>
+</head>
+<body>
+
+</body>
+</html>
+
+
+
+
+

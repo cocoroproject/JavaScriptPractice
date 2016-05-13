@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+	window.onload = function () {
+		var socket = io.connect();
+		
+		var button = document.getElementById('button');
+		button.onclick = function () {
+		var text = document.getElementById('text').value;
+			socket.emit('kosta', text);
+		}
+		
+		socket.on('apple', function (data) {
+			alert(data);
+			var result = document.getElimentById('result');
+			result.innerHTML= data;
+		})
+	}
+</script>
+</head>
+<body>
+	<h3>소켓 test</h3>
+	<input type="text" id="text"/>
+	<input type="button" id="button" value="Eco"/>
+	<div id="result"></div>
+</body>
+</html>
