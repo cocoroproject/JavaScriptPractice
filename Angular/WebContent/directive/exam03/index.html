@@ -1,0 +1,19 @@
+<!doctype html>
+<html ng-app="appModule">
+<head>
+<meta charset="utf-8">
+<script src="http://code.angularjs.org/1.2.10/angular.min.js"></script>
+<script src="script.js"></script>
+<link rel="stylesheet" href="table.css" type="text/css">
+</head>
+<body ng-controller='Ctrl'>
+<my-title>
+<my-content class='table'
+ng-repeat='item in items'
+item-title='item.title'>
+{{item.content}}
+</my-content>
+</my-title>
+</body>
+</html>
+

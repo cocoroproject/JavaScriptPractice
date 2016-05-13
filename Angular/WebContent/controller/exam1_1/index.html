@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>
+<script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+	<div ng-app="invoice1" ng-controller="InvoiceController">
+	  <b>Invoice:</b>
+	  <div>
+	    Quantity: <input type="number" min="0" ng-model="qty" required >
+	  </div>
+	  <div>
+	    Costs: <input type="number" min="0" ng-model="cost" required >
+	    <select ng-model="inCurr">
+	      <option ng-repeat="c in currencies">{{c}}</option>
+	    </select>
+	  </div>
+	  <div>
+	    <b>Total:</b>
+	    <span ng-repeat="c in currencies">
+	      {{total(c) | currency:c}}
+	    </span>
+	    <button class="btn" ng-click="pay()">Pay</button>
+	  </div>
+	</div>
+</body>
+</html>

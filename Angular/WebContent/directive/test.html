@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var people = [
+	              	{
+	              		name : 'a',
+	              		pass : 'a1'
+	              	},
+	              	{
+	              		name : 'b',
+	              		pass : 'b1'
+	              	}
+	              ];
+	
+	var temp = people.map(function(person){
+		var str = '<div>' + person.name +
+        ' ' + person.pass + '</div>';
+		return str;
+	}).join('');
+	
+	alert(temp);
+	
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>
